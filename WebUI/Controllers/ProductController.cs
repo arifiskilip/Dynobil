@@ -1,12 +1,23 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using DataAccess.Contexts;
+using Entities.Concrete;
+using Microsoft.AspNetCore.Mvc;
+using WebUI.Paging;
 
 namespace WebUI.Controllers
 {
     public class ProductController : Controller
     {
-        public IActionResult Index()
+        private readonly NorthwindContext _context;
+
+        public ProductController(NorthwindContext context)
         {
-            return View();
+            _context = context;
+        }
+
+        public IActionResult Index(int index=1)
+        {
+            var categories = Paginate<Category>.Create(_context.Categories, index, 5);
+            return View(categories);
         }
     }
 }
