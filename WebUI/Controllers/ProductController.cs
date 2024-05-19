@@ -16,8 +16,15 @@ namespace WebUI.Controllers
 
         public IActionResult Index(int index=1)
         {
+            ViewBag.index=index;
             var categories = Paginate<Category>.Create(_context.Categories, index, 5);
             return View(categories);
+        }
+
+        [HttpGet]
+        public IActionResult GetCategories()
+        {
+            return View();
         }
     }
 }

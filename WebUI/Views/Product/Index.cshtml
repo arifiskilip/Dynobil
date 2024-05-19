@@ -4,6 +4,7 @@
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    var currentPage = ViewBag.index;
 }
 
 <section class="content">
@@ -45,11 +46,20 @@
                     <!-- /.card-body -->
                     <div class="card-footer clearfix">
                         <ul class="pagination pagination-sm m-0 float-right">
-                            <li class="page-item"><a class="page-link" href="#">«</a></li>
-                            <li class="page-item"><a class="page-link" asp-action="Index" asp-route-index="1">1</a></li>
-                            <li class="page-item"><a class="page-link" asp-action="Index" asp-route-index="2">2</a></li>
-                            <li class="page-item"><a class="page-link" href="#">3</a></li>
-                            <li class="page-item"><a class="page-link" href="#">»</a></li>
+                            @if (Model.Pagination.HasPreviousPage)
+                            {
+                                <li class="page-item"><a class="page-link" asp-action="Index" asp-route-index="@(ViewBag.index-1)">«</a></li>
+                            }
+                       @for (int i = 0; i < Model.Pagination.TotalPages; i++)
+                        {
+                            <li class="page-item"><a class="page-link" asp-action="Index" asp-route-index="@(i+1)">@(i + 1)</a></li>
+                        }
+
+
+                            @if (Model.Pagination.HasNextPage)
+                            {
+                                <li class="page-item"><a class="page-link" asp-action="Index" asp-route-index="@(ViewBag.index+1)">»</a></li>
+                            }
                         </ul>
                     </div>
                 </div>
@@ -57,3 +67,22 @@
         </div>
     </div>
 </section>
+
+@section Scripts{
+   <script>
+       function getCategories() {
+           $.ajax({
+               type:"GET",
+               url:"/Products/GetCategories",
+               data: {},
+               success: function (data) {
+
+               },
+               error: function (err) {
+
+               }
+
+           })
+       }
+   </script>
+}
