@@ -7,6 +7,35 @@
     var currentPage = ViewBag.index;
 }
 
+<div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="addModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addModalLabel">Add New Item</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form id="addItemForm">
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="name">Name</label>
+                            <input type="text" class="form-control" id="name" name="name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="description">Description</label>
+                            <textarea class="form-control" id="description" name="description" rows="3" required></textarea>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button id="addCategory" class="btn btn-primary">Save changes</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
 <section class="content">
     <div class="container">
         <div class="row">
@@ -17,13 +46,14 @@
                     </div>
                     <!-- /.card-header -->
                     <div class="card-body">
+                        <button class="btn btn-success mb-2" data-toggle="modal" data-target="#addModal">Add</button>
                         <table class="table table-bordered">
                             <thead>
                                 <tr>
                                     <th style="width: 10px">#</th>
-                                    <th>Task</th>
-                                    <th>Progress</th>
-                                    <th style="width: 40px">Label</th>
+                                    <th>Name</th>
+                                    <th>Description</th>
+                                    <th style="width: 40px">Operations</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -33,11 +63,12 @@
                                         <td>@item.Id</td>
                                         <td>@item.CategoryName</td>
                                         <td>
-                                            <div class="progress progress-xs">
-                                                <div class="progress-bar progress-bar-danger" style="width: 55%"></div>
+                                            <div class="text-center">
+                                               @item.Description
                                             </div>
                                         </td>
-                                        <td><span class="badge bg-danger">55%</span></td>
+                                        <td><span class="btn badge bg-danger">Delete</span>
+                                            <span class="btn badge bg-warning mt-2">Update</span</td>
                                     </tr>
                                 }
                             </tbody>
@@ -72,17 +103,48 @@
    <script>
        function getCategories() {
            $.ajax({
-               type:"GET",
+               type:"Post",
                url:"/Products/GetCategories",
                data: {},
                success: function (data) {
 
                },
                error: function (err) {
-
+                   console.log(err)
                }
 
            })
        }
+
+    $('#addCategory').click(function (event) {
+    event.preventDefault(); // Sayfanın yeniden yüklenmesini engellemek için
+    var formData = {
+        Name: $("#name").val(),
+        Description: $("#description").val()
+    };
+
+    $.ajax({
+        type: "POST",
+        url: "/Product/AddCategory", // Controller ve action'ın uygun adları ile değiştirilmelidir
+        data: JSON.stringify(formData),
+        contentType: "application/json",
+        success: function (response) {
+            if (response.success) {
+                console.log(response)
+                alert(response); // Başarılı bir şekilde eklendiğinde kullanıcıya mesaj gösterilebilir
+                // İşlem başarılıysa başka bir işlem yapılabilir, örneğin modalı kapatmak gibi
+            } else {
+                alert(response.message); // Ekleme işlemi başarısız olduğunda kullanıcıya hata mesajı gösterilebilir
+            }
+        },
+        error: function (xhr, status, error) {
+            console.error(xhr.responseText); // Hata durumunda konsola hata mesajı yazdırılır
+        }
+    });
+});
+
    </script>
+   <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+
 }
