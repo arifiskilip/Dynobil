@@ -38,7 +38,7 @@ namespace Core.DataAccess.Repositories
         Task<ICollection<TEntity>> UpdateRangeAsync(ICollection<TEntity> entities);
 
         Task<TEntity> DeleteAsync(TEntity entity);
-
+        Task<List<TEntity>> GetAllNoPagingAsync();
         Task<ICollection<TEntity>> DeleteRangeAsync(ICollection<TEntity> entities);
     }
 }

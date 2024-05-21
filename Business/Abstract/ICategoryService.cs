@@ -6,6 +6,7 @@ namespace Business.Abstract
     public interface ICategoryService
     {
         Task<IPaginate<Category>> GetAllAsync(int index = 1, int size = 10);
+        Task<List<Category>> GetAllNoPagingAsync();
         Task<Category> GetByIdAsync(int id);
         Task<Category> AddAsync(Category category);
         Task<Category> UpdateAsync(Category category);

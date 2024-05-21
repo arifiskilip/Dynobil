@@ -58,10 +58,8 @@ namespace Business.Concrete
 
         public async Task<Product> UpdateAsync(Product product)
         {
-            var checkProduct = await _productDal.GetAsync(
-                predicate: x => x.Id == product.Id);
-            await IsSelectedProductAvailable(checkProduct);
-            await UpdateDuplicateNameCheckAsync(product.ProductName, checkProduct.Id);
+            await IsSelectedProductAvailable(product);
+            await UpdateDuplicateNameCheckAsync(product.ProductName, product.Id);
             await _productDal.UpdateAsync(product);
             return product;
         }

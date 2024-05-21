@@ -1,10 +1,11 @@
 ﻿@using Core.DataAccess.Paging
 @using Entities.Concrete
-@model IPaginate<Category>
+@model IPaginate<Product>
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+
 
 <section class="content">
     <div class="container">
@@ -16,13 +17,14 @@
                     </div>
                     <!-- /.card-header -->
                     <div class="card-body">
-                        <button class="btn btn-success mb-2" data-toggle="modal" data-target="#addModal">Add</button>
+                        <a class="btn btn-success mb-2" asp-controller="Product" asp-action="Add">Add</a>
                         <table class="table table-bordered">
                             <thead>
                                 <tr>
                                     <th style="width: 10px">#</th>
-                                    <th>Name</th>
-                                    <th>Description</th>
+                                    <th>Product Name</th>
+                                    <th>Category Name</th>
+                                    <th>Price</th>
                                     <th style="width: 40px">Operations</th>
                                 </tr>
                             </thead>
@@ -31,14 +33,15 @@
                                 {
                                     <tr>
                                         <td>@item.Id</td>
-                                        <td>@item.CategoryName</td>
+                                        <td>@item.ProductName</td>
+                                        <td>@item.Category.CategoryName</td>
                                         <td>
                                             <div class="text-center">
-                                               @item.Description
+                                               @item.UnitPrice
                                             </div>
                                         </td>
-                                        <td><span class="btn badge bg-danger">Delete</span>
-                                            <span class="btn badge bg-warning mt-2">Update</span</td>
+                                        <td><a class="btn badge bg-danger" href="/Product/Delete/@item.Id">Delete</a>
+                                            <a class="btn badge bg-warning mt-2" href="/Product/Update/@item.Id">Update</a</td>
                                     </tr>
                                 }
                             </tbody>
@@ -69,8 +72,3 @@
     </div>
 </section>
 
-@section Scripts{
-   <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
-<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
-
-}

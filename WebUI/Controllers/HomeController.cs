@@ -3,6 +3,7 @@ using Business.Abstract;
 using DataAccess.Contexts;
 using Entities.Concrete;
 using Entities.Enum;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -27,6 +28,7 @@ namespace WebUI.Controllers
             _mapper = mapper;
         }
 
+        [Authorize]
         public async Task<IActionResult> Index()
         {
             var totalCustomers = await _userManager.Users.CountAsync();

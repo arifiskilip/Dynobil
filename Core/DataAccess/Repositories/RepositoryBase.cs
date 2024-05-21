@@ -201,5 +201,11 @@ namespace Core.DataAccess.Repositories
             });
             return entities;
         }
+
+        public async Task<List<TEntity>> GetAllNoPagingAsync()
+        {
+            var entities = await _entity.ToListAsync();
+            return entities;
+        }
     }
 }

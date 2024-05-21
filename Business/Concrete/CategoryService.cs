@@ -54,14 +54,15 @@ namespace Business.Concrete
 
         public async Task<Category> UpdateAsync(Category category)
         {
-            var checkCategory = await _categoryDal.GetAsync(
-               predicate: x => x.Id == category.Id);
-            await IsSelectedCategoryAvailable(checkCategory);
+            await IsSelectedCategoryAvailable(category);
             await UpdateDuplicateNameCheckAsync(category.CategoryName, category.Id);
             await _categoryDal.UpdateAsync(category);
             return category;
         }
-
+        public async Task<List<Category>> GetAllNoPagingAsync()
+        {
+            return await _categoryDal.GetAllNoPagingAsync();
+        }
 
         //Rules
         private async Task DuplicateNameCheckAsync(string name)
@@ -88,5 +89,7 @@ namespace Business.Concrete
         {
             if (category is null) throw new BusinessException("Bu kategori mevcut değil!");
         }
+
+
     }
 }
