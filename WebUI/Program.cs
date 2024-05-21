@@ -1,14 +1,16 @@
-using Business.Abstract;
-using Business.Concrete;
+using AspNetCoreHero.ToastNotification;
+using AspNetCoreHero.ToastNotification.Extensions;
+using Business;
 using DataAccess;
 using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddRazorPages().AddRazorRuntimeCompilation();
-builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddDataAccessServices();
+builder.Services.AddBusinessServices();
 builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
+builder.Services.AddNotyf(config => { config.DurationInSeconds = 10; config.IsDismissable = true; config.Position = NotyfPosition.BottomRight; });
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
@@ -23,6 +25,7 @@ if (!app.Environment.IsDevelopment())
 	app.UseHsts();
 }
 
+app.UseNotyf();
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 

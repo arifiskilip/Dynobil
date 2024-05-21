@@ -1,4 +1,6 @@
-﻿using DataAccess.Contexts;
+﻿using DataAccess.Abstract;
+using DataAccess.Concrete;
+using DataAccess.Contexts;
 using Entities.Concrete;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -20,6 +22,11 @@ namespace DataAccess
 				
 			}).AddEntityFrameworkStores<NorthwindContext>()
 			.AddDefaultTokenProviders();
+
+			services.AddScoped<ICategoryDal, CategoryDal>();
+			services.AddScoped<IProductDal, ProductDal>();
+
+			
 		}	
 	}
 }

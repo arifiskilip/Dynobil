@@ -6,6 +6,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+
 <section class="content">
     <div class="container">
         <div class="row">
@@ -16,7 +17,7 @@
                     </div>
                     <!-- /.card-header -->
                     <div class="card-body">
-                        <button class="btn btn-success mb-2" data-toggle="modal" data-target="#addModal">Add</button>
+                        <a class="btn btn-success mb-2" asp-controller="Category" asp-action="Add">Add</a>
                         <table class="table table-bordered">
                             <thead>
                                 <tr>
@@ -37,8 +38,8 @@
                                                @item.Description
                                             </div>
                                         </td>
-                                        <td><span class="btn badge bg-danger">Delete</span>
-                                            <span class="btn badge bg-warning mt-2">Update</span</td>
+                                        <td><a class="btn badge bg-danger" href="/Category/Delete/@item.Id">Delete</a>
+                                            <a class="btn badge bg-warning mt-2" href="/Category/Update/@item.Id">Update</a</td>
                                     </tr>
                                 }
                             </tbody>
@@ -69,8 +70,3 @@
     </div>
 </section>
 
-@section Scripts{
-   <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
-<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
-
-}

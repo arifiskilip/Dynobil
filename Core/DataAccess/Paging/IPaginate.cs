@@ -1,9 +1,8 @@
-﻿using System.Security.Principal;
+﻿using Core.Entities;
 
-namespace WebUI.Paging
+namespace Core.DataAccess.Paging
 {
     public interface IPaginate<T>
-          where T : class, new()
     {
         public IQueryable<T> Items { get; }
         public PaginationInfo Pagination { get; }

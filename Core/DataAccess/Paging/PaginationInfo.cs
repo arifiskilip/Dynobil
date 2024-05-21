@@ -1,4 +1,4 @@
-﻿namespace WebUI.Paging
+﻿namespace Core.DataAccess.Paging
 {
     public class PaginationInfo
     {
