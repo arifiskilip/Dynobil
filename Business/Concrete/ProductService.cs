@@ -28,7 +28,8 @@ namespace Business.Concrete
         {
             var checkProduct = await _productDal.GetAsync(
                 predicate: x => x.Id == id,
-                enableTracking: true);
+                include:x=> x.Include(x=>x.Category),
+                enableTracking: false);
 
             await IsSelectedProductAvailable(checkProduct);
             await _productDal.DeleteAsync(checkProduct);
